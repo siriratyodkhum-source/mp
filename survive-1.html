@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="th">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   เอาชีวิตรอด - ANF
+  </title>
+  <!-- Font Awesome สำหรับไอคอน -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <style>
+   * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #050002;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* 🔴 พื้นหลังเนบิวลาเรืองแสงโทนดำ-แดง */
+        .cosmic-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: radial-gradient(circle at 80% 20%, rgba(180, 0, 30, 0.35) 0%, rgba(60, 0, 10, 0.2) 40%, rgba(5, 0, 2, 1) 80%);
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        /* 🌟 ดาวดวงใหญ่หลัก (Big Main Star) */
+        .main-star {
+            position: absolute;
+            top: 15%;
+            right: 15%;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, #ffffff 10%, #ff3344 40%, transparent 70%);
+            clip-path: polygon(50% 0%, 63% 37%, 100% 50%, 63% 63%, 50% 100%, 37% 63%, 0% 50%, 37% 37%);
+            filter: drop-shadow(0 0 25px #ff0033) drop-shadow(0 0 50px #990011);
+            animation: pulseMainStar 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulseMainStar {
+            0% {
+                transform: scale(0.9) rotate(0deg);
+                filter: drop-shadow(0 0 20px #ff0033) drop-shadow(0 0 40px #800000);
+            }
+            100% {
+                transform: scale(1.1) rotate(5deg);
+                filter: drop-shadow(0 0 40px #ff3355) drop-shadow(0 0 80px #cc0022);
+            }
+        }
+
+        /* ✨ ดาวส่องแสงระยิบระยับ (Twinkling Stars) */
+        .star {
+            position: absolute;
+            background: #ff6677;
+            clip-path: polygon(50% 0%, 65% 35%, 100% 50%, 65% 65%, 50% 100%, 35% 65%, 0% 50%, 35% 35%);
+            filter: drop-shadow(0 0 8px #ff0033);
+            animation: twinkle linear infinite alternate;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.2; transform: scale(0.7); }
+            100% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* ☄️ ดาวตก (Shooting Stars / Comets) */
+        .shooting-star {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(-45deg, #ff6677, rgba(255, 0, 50, 0));
+            filter: drop-shadow(0 0 6px #ff0033);
+            animation: tail 3s ease-in-out infinite, shooting 3s ease-in-out infinite;
+            opacity: 0;
+        }
+
+        @keyframes tail {
+            0% { width: 0; }
+            30% { width: 120px; }
+            100% { width: 0; }
+        }
+
+        @keyframes shooting {
+            0% {
+                transform: translateX(0) translateY(0) rotate(-35deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(-800px) translateY(500px) rotate(-35deg);
+                opacity: 0;
+            }
+        }
+
+        /* Header Navbar */
+        header {
+            height: 60px;
+            background: linear-gradient(180deg, rgba(64, 0, 0, 0.9) 0%, rgba(128, 0, 0, 0.8) 100%);
+            backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #fff;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-title {
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: #ffffff;
+            letter-spacing: 1px;
+        }
+
+        .login-btn {
+            background-color: transparent;
+            border: 1px solid #ffffff;
+            color: #ffffff;
+            padding: 6px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .login-btn:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: scale(1.03);
+        }
+
+        /* Container & Grid */
+        .container {
+            max-width: 1500px;
+            margin: 20px auto;
+            padding: 0 15px;
+            width: 100%;
+            position: relative;
+            z-index: 5;
+        }
+
+        /* กำหนดเป็น 6 ช่องในแถวเดียว */
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 12px;
+        }
+
+        /* Card Style - Dark Glassmorphism */
+        .card {
+            background: rgba(20, 5, 8, 0.85);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 50, 50, 0.3);
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 0, 0, 0.4);
+            border-color: #ff3333;
+        }
+
+        .nav-logo {
+            height: 38px;
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 0 5px rgba(255, 50, 50, 0.8));
+        }
+
+        .card-img {
+            width: 100%;
+            height: 200px;
+            background-color: #1a1a1a;
+            object-fit: cover;
+        }
+
+        .card-body {
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex: 1;
+        }
+
+        .game-title {
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 8px;
+            line-height: 1.3;
+            min-height: 36px;
+        }
+
+        .game-price {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #ff4d4d;
+            margin-bottom: 10px;
+        }
+
+        /* ปุ่มสั่งซื้อ */
+        .buy-btn {
+            width: 100%;
+            background-color: #b30000;
+            color: white;
+            border: none;
+            padding: 8px 0;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-align: center;
+            transition: background-color 0.2s, transform 0.1s, box-shadow 0.2s;
+        }
+
+        .buy-btn:hover {
+            background-color: #e60000;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+        }
+
+        .buy-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Footer */
+        footer {
+            height: 55px;
+            background: linear-gradient(180deg, rgba(128, 0, 0, 0.8) 0%, rgba(64, 0, 0, 0.9) 100%);
+            backdrop-filter: blur(5px);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+            letter-spacing: 0.5px;
+            margin-top: auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .game-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+        @media (max-width: 600px) {
+            .game-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+  </style>
+  <link href="store.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <!-- Background Cosmic Container -->
+  <div class="cosmic-container" id="cosmicBg">
+   <div class="main-star">
+   </div>
+  </div>
+  <!-- Header / Navbar -->
+  <header class="navbar">
+   <div class="nav-left">
+    <img alt="ANF Logo" class="nav-logo" src="images/LOGO-removebg-preview.png"/>
+   </div>
+   <span class="nav-title">
+    เอาชีวิตรอด
+   </span>
+   <button class="login-btn" onclick="goToLogin()">
+    เข้าสู่ระบบ
+   </button>
+  </header>
+  <!-- Content Row 1 -->
+  <div class="container">
+   <div class="game-grid">
+    <!-- Card 1 -->
+    <div class="card store-game-card" data-category-name="เอาชีวิตรอด" data-category-url="survive-1.html" data-game-image="เอาชีวิตรอด/1.webp" data-game-price="ฟรี" data-game-title="Resident Evil 4 Chainsaw Demo">
+     <img alt="Resident Evil 4 Chainsaw Demo" class="card-img" src="เอาชีวิตรอด/1.webp"/>
+     <div class="card-body">
+      <div class="game-title">
+       Resident Evil 4 Chainsaw Demo
+      </div>
+      <div class="game-price">
+       ฟรี
+      </div>
+      <button class="buy-btn">
+       ดาวน์โหลดฟรี
+      </button>
+     </div>
+    </div>
+    <!-- Card 2 -->
+    <div class="card store-game-card" data-category-name="เอาชีวิตรอด" data-category-url="survive-1.html" data-game-image="เอาชีวิตรอด/2.webp" data-game-price="590.00฿" data-game-title="Tormented Souls II">
+     <img alt="Tormented Souls II" class="card-img" src="เอาชีวิตรอด/2.webp"/>
+     <div class="card-body">
+      <div class="game-title">
+       Tormented Souls II
+      </div>
+      <div class="game-price">
+       590.00฿
+      </div>
+      <button class="buy-btn">
+       ซื้อ
+      </button>
+     </div>
+    </div>
+    <!-- Card 3 -->
+    <div class="card store-game-card" data-category-name="เอาชีวิตรอด" data-category-url="survive-1.html" data-game-image="เอาชีวิตรอด/3.webp" data-game-price="1,190.00฿" data-game-title="The Casting of Frank Stone">
+     <img alt="The Casting of Frank Stone" class="card-img" src="เอาชีวิตรอด/3.webp"/>
+     <div class="card-body">
+      <div class="game-title">
+       The Casting of Frank Stone
+      </div>
+      <div class="game-price">
+       1,190.00฿
+      </div>
+      <button class="buy-btn">
+       ซื้อ
+      </button>
+     </div>
+    </div>
+    <!-- Card 4 -->
+    <div class="card store-game-card" data-category-name="เอาชีวิตรอด" data-category-url="survive-1.html" data-game-image="เอาชีวิตรอด/4.webp" data-game-price="299.00฿" data-game-title="Resident Evil Requiem">
+     <img alt="Resident Evil Requiem" class="card-img" src="เอาชีวิตรอด/4.webp"/>
+     <div class="card-body">
+      <div class="game-title">
+       Resident Evil Requiem
+      </div>
+      <div class="game-price">
+       299.00฿
+      </div>
+      <button class="buy-btn">
+       ซื้อ
+      </button>
+     </div>
+    </div>
+    <!-- Card 5 -->
+    <div class="card store-game-card" data-category-name="เอาชีวิตรอด" data-category-url="survive-1.html" data-game-image="เอาชีวิตรอด/5.webp" data-game-price="619.00฿" data-game-title="SCUM">
+     <img alt="SCUM" class="card-img" src="เอาชีวิตรอด/5.webp"/>
+     <div class="card-body">
+      <div class="game-title">
+       SCUM
+      </div>
+      <div class="game-price">
+       619.00฿
+      </div>
+      <button class="buy-btn">
+       ซื้อ
+      </button>
+     </div>
+    </div>
+    <!-- Card 6 -->
+    <div class="card store-game-card" data-category-name="เอาชีวิตรอด" data-category-url="survive-1.html" data-game-image="เอาชีวิตรอด/6.webp" data-game-price="789.00฿" data-game-title="Sifu">
+     <img alt="Sifu" class="card-img" src="เอาชีวิตรอด/6.webp"/>
+     <div class="card-body">
+      <div class="game-title">
+       Sifu
+      </div>
+      <div class="game-price">
+       789.00฿
+      </div>
+      <button class="buy-btn">
+       ซื้อ
+      </button>
+     </div>
+    </div>
+   </div>
+  </div>
+  <!-- Content Row 2 -->
+  <div class="container">
+   <div class="game-grid">
+    <!-- Card 7 -->
+    <div class="card store-game-card" data-category-name="เอาชีวิตรอด" data-category-url="survive-1.html" data-game-image="เอาชีวิตรอด/7.webp" data-game-price="315.00฿" data-game-title="ARK: Survival Evolved">
+     <img alt="ARK: Survival Evolved" class="card-img" src="เอาชีวิตรอด/7.webp"/>
+     <div class="card-body">
+      <div class="game-title">
+       ARK: Survival Evolved
+      </div>
+      <div class="game-price">
+       315.00฿
+      </div>
+      <button class="buy-btn">
+       ซื้อ
+      </button>
+     </div>
+    </div>
+    <!-- Card 8 -->
+    <div class="card store-game-card" data-category-name="เอาชีวิตรอด" data-category-url="survive-1.html" data-game-image="เอาชีวิตรอด/8.webp" data-game-price="379.00฿" data-game-title="Green Hell">
+     <img alt="Green Hell" class="card-img" src="เอาชีวิตรอด/8.webp"/>
+     <div class="card-body">
+      <div class="game-title">
+       Green Hell
+      </div>
+      <div class="game-price">
+       379.00฿
+      </div>
+      <button class="buy-btn">
+       ซื้อ
+      </button>
+     </div>
+    </div>
+    <!-- Card 9 -->
+    <div class="card store-game-card" data-category-name="เอาชีวิตรอด" data-category-url="survive-1.html" data-game-image="เอาชีวิตรอด/9.webp" data-game-price="1,090.00฿" data-game-title="Minecraft">
+     <img alt="Minecraft" class="card-img" src="เอาชีวิตรอด/9.webp"/>
+     <div class="card-body">
+      <div class="game-title">
+       Minecraft
+      </div>
+      <div class="game-price">
+       1,090.00฿
+      </div>
+      <button class="buy-btn">
+       ซื้อ
+      </button>
+     </div>
+    </div>
+    <!-- Card 10 -->
+    <div class="card store-game-card" data-category-name="เอาชีวิตรอด" data-category-url="survive-1.html" data-game-image="เอาชีวิตรอด/10.webp" data-game-price="369.00฿" data-game-title="Raft">
+     <img alt="Raft" class="card-img" src="เอาชีวิตรอด/10.webp"/>
+     <div class="card-body">
+      <div class="game-title">
+       Raft
+      </div>
+      <div class="game-price">
+       369.00฿
+      </div>
+      <button class="buy-btn">
+       ซื้อ
+      </button>
+     </div>
+    </div>
+    <!-- Card 11 -->
+    <div class="card store-game-card" data-category-name="เอาชีวิตรอด" data-category-url="survive-1.html" data-game-image="เอาชีวิตรอด/11.webp" data-game-price="209.00฿" data-game-title="Mist Survival">
+     <img alt="Mist Survival" class="card-img" src="เอาชีวิตรอด/11.webp"/>
+     <div class="card-body">
+      <div class="game-title">
+       Mist Survival
+      </div>
+      <div class="game-price">
+       209.00฿
+      </div>
+      <button class="buy-btn">
+       ซื้อ
+      </button>
+     </div>
+    </div>
+    <!-- Card 12 -->
+    <div class="card store-game-card" data-category-name="เอาชีวิตรอด" data-category-url="survive-1.html" data-game-image="เอาชีวิตรอด/12.webp" data-game-price="490.00฿" data-game-title="Enshrouded">
+     <img alt="Enshrouded" class="card-img" src="เอาชีวิตรอด/12.webp"/>
+     <div class="card-body">
+      <div class="game-title">
+       Enshrouded
+      </div>
+      <div class="game-price">
+       490.00฿
+      </div>
+      <button class="buy-btn">
+       ซื้อ
+      </button>
+     </div>
+    </div>
+   </div>
+  </div>
+  <!-- Content Row 3 -->
+  <div class="container">
+   <div class="game-grid">
+    <!-- Card 13 -->
+    <div class="card store-game-card" data-category-name="เอาชีวิตรอด" data-category-url="survive-1.html" data-game-image="เอาชีวิตรอด/13.webp" data-game-price="1,290.00฿" data-game-title="Days Gone">
+     <img alt="Days Gone" class="card-img" src="เอาชีวิตรอด/13.webp"/>
+     <div class="card-body">
+      <div class="game-title">
+       Days Gone
+      </div>
+      <div class="game-price">
+       1,290.00฿
+      </div>
+      <button class="buy-btn">
+       ซื้อ
+      </button>
+     </div>
+    </div>
+    <!-- Card 14 -->
+    <div class="card store-game-card" data-category-name="เอาชีวิตรอด" data-category-url="survive-1.html" data-game-image="เอาชีวิตรอด/14.webp" data-game-price="ฟรี" data-game-title="Once Human">
+     <img alt="Once Human" class="card-img" src="เอาชีวิตรอด/14.webp"/>
+     <div class="card-body">
+      <div class="game-title">
+       Once Human
+      </div>
+      <div class="game-price">
+       ฟรี
+      </div>
+      <button class="buy-btn">
+       ดาวน์โหลดฟรี
+      </button>
+     </div>
+    </div>
+    <!-- Card 15 -->
+    <div class="card store-game-card" data-category-name="เอาชีวิตรอด" data-category-url="survive-1.html" data-game-image="เอาชีวิตรอด/15.webp" data-game-price="590.00฿" data-game-title="Palworld">
+     <img alt="Palworld" class="card-img" src="เอาชีวิตรอด/15.webp"/>
+     <div class="card-body">
+      <div class="game-title">
+       Palworld
+      </div>
+      <div class="game-price">
+       590.00฿
+      </div>
+      <button class="buy-btn">
+       ซื้อ
+      </button>
+     </div>
+    </div>
+    <!-- Card 16 -->
+    <div class="card store-game-card" data-category-name="เอาชีวิตรอด" data-category-url="survive-1.html" data-game-image="เอาชีวิตรอด/16.webp" data-game-price="1,200.00฿" data-game-title="Watch Dogs 2">
+     <img alt="Watch Dogs 2" class="card-img" src="เอาชีวิตรอด/16.webp"/>
+     <div class="card-body">
+      <div class="game-title">
+       Watch Dogs 2
+      </div>
+      <div class="game-price">
+       1,200.00฿
+      </div>
+      <button class="buy-btn">
+       ซื้อ
+      </button>
+     </div>
+    </div>
+    <!-- Card 17 -->
+    <div class="card store-game-card" data-category-name="เอาชีวิตรอด" data-category-url="survive-1.html" data-game-image="เอาชีวิตรอด/17.webp" data-game-price="399.00฿" data-game-title="Sons of the Forest">
+     <img alt="Sons of the Forest" class="card-img" src="เอาชีวิตรอด/17.webp"/>
+     <div class="card-body">
+      <div class="game-title">
+       Sons of the Forest
+      </div>
+      <div class="game-price">
+       399.00฿
+      </div>
+      <button class="buy-btn">
+       ซื้อ
+      </button>
+     </div>
+    </div>
+    <!-- Card 18 -->
+    <div class="card store-game-card" data-category-name="เอาชีวิตรอด" data-category-url="survive-1.html" data-game-image="เอาชีวิตรอด/18.png" data-game-price="490.00฿" data-game-title="Enshrouded">
+     <img alt="Enshrouded" class="card-img" src="เอาชีวิตรอด/18.png"/>
+     <div class="card-body">
+      <div class="game-title">
+       Enshrouded
+      </div>
+      <div class="game-price">
+       490.00฿
+      </div>
+      <button class="buy-btn">
+       ซื้อ
+      </button>
+     </div>
+    </div>
+   </div>
+  </div>
+  <!-- Content Row 4 -->
+  <div class="container">
+   <div class="game-grid">
+    <!-- Card 19 -->
+    <div class="card store-game-card" data-category-name="เอาชีวิตรอด" data-category-url="survive-1.html" data-game-image="เอาชีวิตรอด/19.webp" data-game-price="1,190.00฿" data-game-title="Subnautica 2">
+     <img alt="Subnautica 2" class="card-img" src="เอาชีวิตรอด/19.webp"/>
+     <div class="card-body">
+      <div class="game-title">
+       Subnautica 2
+      </div>
+      <div class="game-price">
+       1,190.00฿
+      </div>
+      <button class="buy-btn">
+       ซื้อ
+      </button>
+     </div>
+    </div>
+    <!-- Card 20 -->
+    <div class="card store-game-card" data-category-name="เอาชีวิตรอด" data-category-url="survive-1.html" data-game-image="เอาชีวิตรอด/20.webp" data-game-price="479.00฿" data-game-title="V Rising">
+     <img alt="V Rising" class="card-img" src="เอาชีวิตรอด/20.webp"/>
+     <div class="card-body">
+      <div class="game-title">
+       V Rising
+      </div>
+      <div class="game-price">
+       479.00฿
+      </div>
+      <button class="buy-btn">
+       ซื้อ
+      </button>
+     </div>
+    </div>
+    <!-- Card 21 -->
+    <div class="card store-game-card" data-category-name="เอาชีวิตรอด" data-category-url="survive-1.html" data-game-image="เอาชีวิตรอด/21.png" data-game-price="315.00฿" data-game-title="Valheim">
+     <img alt="Valheim" class="card-img" src="เอาชีวิตรอด/21.png"/>
+     <div class="card-body">
+      <div class="game-title">
+       Valheim
+      </div>
+      <div class="game-price">
+       315.00฿
+      </div>
+      <button class="buy-btn">
+       ซื้อ
+      </button>
+     </div>
+    </div>
+    <!-- Card 22 -->
+    <div class="card store-game-card" data-category-name="เอาชีวิตรอด" data-category-url="survive-1.html" data-game-image="เอาชีวิตรอด/22.png" data-game-price="1,190.00฿" data-game-title="Grounded">
+     <img alt="Grounded" class="card-img" src="เอาชีวิตรอด/22.png"/>
+     <div class="card-body">
+      <div class="game-title">
+       Grounded
+      </div>
+      <div class="game-price">
+       1,190.00฿
+      </div>
+      <button class="buy-btn">
+       ซื้อ
+      </button>
+     </div>
+    </div>
+    <!-- Card 23 -->
+    <div class="card store-game-card" data-category-name="เอาชีวิตรอด" data-category-url="survive-1.html" data-game-image="เอาชีวิตรอด/23.png" data-game-price="735.00฿" data-game-title="7 Days to Die">
+     <img alt="7 Days to Die" class="card-img" src="เอาชีวิตรอด/23.png"/>
+     <div class="card-body">
+      <div class="game-title">
+       7 Days to Die
+      </div>
+      <div class="game-price">
+       735.00฿
+      </div>
+      <button class="buy-btn">
+       ซื้อ
+      </button>
+     </div>
+    </div>
+    <!-- Card 24 -->
+    <div class="card store-game-card" data-category-name="เอาชีวิตรอด" data-category-url="survive-1.html" data-game-image="เอาชีวิตรอด/24.png" data-game-price="540.00฿" data-game-title="The Long Dark">
+     <img alt="The Long Dark" class="card-img" src="เอาชีวิตรอด/24.png"/>
+     <div class="card-body">
+      <div class="game-title">
+       The Long Dark
+      </div>
+      <div class="game-price">
+       540.00฿
+      </div>
+      <button class="buy-btn">
+       ซื้อ
+      </button>
+     </div>
+    </div>
+   </div>
+  </div>
+  <!-- Footer -->
+  <footer>
+   ©2026 By ANF
+  </footer>
+  <!-- JavaScript -->
+  <script>
+   const container = document.getElementById('cosmicBg');
+
+        // สร้างดาวระยิบระยับแบบสุ่ม (Twinkling Stars)
+        function createStars() {
+            for (let i = 0; i < 40; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                
+                const size = Math.random() * 15 + 8;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                
+                star.style.top = Math.random() * 100 + 'vh';
+                star.style.left = Math.random() * 100 + 'vw';
+                
+                star.style.animationDuration = (Math.random() * 2 + 1.5) + 's';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                
+                container.appendChild(star);
+            }
+        }
+
+        // สร้างดาวตกพุ่งผ่านหน้าจอ (Shooting Stars)
+        function createShootingStar() {
+            const shootingStar = document.createElement('div');
+            shootingStar.classList.add('shooting-star');
+            
+            shootingStar.style.top = Math.random() * 50 + 'vh';
+            shootingStar.style.right = Math.random() * 30 + 'vw';
+            
+            const duration = Math.random() * 2 + 2;
+            shootingStar.style.animationDuration = duration + 's';
+            
+            container.appendChild(shootingStar);
+
+            setTimeout(() => {
+                shootingStar.remove();
+            }, duration * 1000);
+        }
+
+        // เริ่มการทำงานของแอนิเมชันพื้นหลัง
+        createStars();
+        setInterval(createShootingStar, 1500);
+
+        // ฟังก์ชันนำทางไปหน้าล็อกอิน
+        function goToLogin() {
+            window.location.href = 'index.html';
+        }
+  </script>
+  <script src="store.js">
+  </script>
+ </body>
+</html>

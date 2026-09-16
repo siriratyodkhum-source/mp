@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ตะกร้าสินค้า - ANF Game Store</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="store.css">
+</head>
+<body class="store-page">
+  <header class="navbar">
+    <div class="logo"><img src="images/LOGO-removebg-preview.png" alt="ANF Game Store" style="height:45px;width:auto"></div>
+    <span class="nav-title">ตะกร้าสินค้า</span>
+    <a class="store-btn secondary" href="Home.html"><i class="fa-solid fa-house"></i> หน้าหลัก</a>
+  </header>
+  <main class="store-shell">
+    <div class="store-heading">
+      <div class="eyebrow">YOUR COLLECTION</div>
+      <h1>ตรวจสอบตะกร้าของคุณ</h1>
+      <p>เลือกเกมเพิ่มได้จากหมวดเดิม หรือกลับไปหน้า Home เพื่อดูเกมทั้งหมด</p>
+    </div>
+    <div class="cart-layout">
+      <section class="store-panel">
+        <div data-cart-items></div>
+        <div class="empty-state" data-cart-empty hidden>
+          <i class="fa-solid fa-cart-shopping" style="font-size:2rem;color:#ff7777"></i>
+          <h2>ยังไม่มีเกมในตะกร้า</h2>
+          <p>เลือกเกมที่สนใจ แล้วกลับมาที่หน้านี้เพื่อยืนยันรายการ</p>
+          <a class="store-btn" data-continue-shopping href="Home.html">เลือกเกม</a>
+        </div>
+      </section>
+      <aside class="store-panel cart-summary-panel" data-cart-summary>
+        <h2>สรุปคำสั่งซื้อ</h2>
+        <div class="review-row"><span>ยอดรวม</span><strong data-cart-total>0.00฿</strong></div>
+        <p class="notice">หลังยืนยันรายการ ระบบจะพาไปหน้าชำระเงินเพื่อเลือกโอนผ่านธนาคารหรือบัตรเครดิต</p>
+        <button class="store-btn" data-confirm-cart type="button"><i class="fa-solid fa-arrow-right"></i> ยืนยันรายการและชำระเงิน</button>
+        <a class="store-btn secondary" data-continue-shopping href="Home.html" style="margin-top:10px">← เลือกเกมเพิ่ม</a>
+      </aside>
+    </div>
+  </main>
+  <script src="store.js"></script>
+</body>
+</html>

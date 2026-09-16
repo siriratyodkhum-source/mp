@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="th">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   แอ็คชั่น - ANF
+  </title>
+  <!-- Font Awesome สำหรับไอคอน -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <style>
+   * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #050002;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* 🔴 พื้นหลังเนบิวลาเรืองแสงโทนดำ-แดง */
+        .cosmic-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: radial-gradient(circle at 80% 20%, rgba(180, 0, 30, 0.35) 0%, rgba(60, 0, 10, 0.2) 40%, rgba(5, 0, 2, 1) 80%);
+            z-index: -1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        /* 🌟 ดาวดวงใหญ่หลัก (Big Main Star) */
+        .main-star {
+            position: absolute;
+            top: 15%;
+            right: 15%;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, #ffffff 10%, #ff3344 40%, transparent 70%);
+            clip-path: polygon(50% 0%, 63% 37%, 100% 50%, 63% 63%, 50% 100%, 37% 63%, 0% 50%, 37% 37%);
+            filter: drop-shadow(0 0 25px #ff0033) drop-shadow(0 0 50px #990011);
+            animation: pulseMainStar 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulseMainStar {
+            0% {
+                transform: scale(0.9) rotate(0deg);
+                filter: drop-shadow(0 0 20px #ff0033) drop-shadow(0 0 40px #800000);
+            }
+            100% {
+                transform: scale(1.1) rotate(5deg);
+                filter: drop-shadow(0 0 40px #ff3355) drop-shadow(0 0 80px #cc0022);
+            }
+        }
+
+        /* ✨ ดาวส่องแสงระยิบระยับ (Twinkling Stars) */
+        .star {
+            position: absolute;
+            background: #ff6677;
+            clip-path: polygon(50% 0%, 65% 35%, 100% 50%, 65% 65%, 50% 100%, 35% 65%, 0% 50%, 35% 35%);
+            filter: drop-shadow(0 0 8px #ff0033);
+            animation: twinkle linear infinite alternate;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.2; transform: scale(0.7); }
+            100% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* ☄️ ดาวตก (Shooting Stars / Comets) */
+        .shooting-star {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(-45deg, #ff6677, rgba(255, 0, 50, 0));
+            filter: drop-shadow(0 0 6px #ff0033);
+            animation: tail 3s ease-in-out infinite, shooting 3s ease-in-out infinite;
+            opacity: 0;
+        }
+
+        @keyframes tail {
+            0% { width: 0; }
+            30% { width: 120px; }
+            100% { width: 0; }
+        }
+
+        @keyframes shooting {
+            0% {
+                transform: translateX(0) translateY(0) rotate(-35deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(-800px) translateY(500px) rotate(-35deg);
+                opacity: 0;
+            }
+        }
+
+        /* Header Navbar */
+        header {
+            height: 60px;
+            background: linear-gradient(180deg, rgba(64, 0, 0, 0.9) 0%, rgba(128, 0, 0, 0.8) 100%);
+            backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 38px;
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 0 5px rgba(255, 50, 50, 0.8));
+        }
+
+        .nav-title {
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: #ffffff;
+            letter-spacing: 1px;
+        }
+
+        .login-btn {
+            background-color: transparent;
+            border: 1px solid #ffffff;
+            color: #ffffff;
+            padding: 6px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .login-btn:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: scale(1.03);
+        }
+
+        /* Container & Grid */
+        .container {
+            max-width: 1500px;
+            margin: 20px auto;
+            padding: 0 15px;
+            width: 100%;
+            position: relative;
+            z-index: 5;
+        }
+
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 12px;
+        }
+
+        /* Card Style - Dark Glassmorphism */
+        .card {
+            background: rgba(20, 5, 8, 0.85);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 50, 50, 0.3);
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 0, 0, 0.4);
+            border-color: #ff3333;
+        }
+
+        .card-img {
+            width: 100%;
+            height: 200px;
+            background-color: #1a1a1a;
+            object-fit: cover;
+        }
+
+        .card-body {
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex: 1;
+        }
+
+        .game-title {
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 8px;
+            line-height: 1.3;
+            min-height: 36px;
+        }
+
+        .game-price {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #ff4d4d;
+            margin-bottom: 10px;
+        }
+
+        /* ปุ่มสั่งซื้อ */
+        .buy-btn {
+            width: 100%;
+            background-color: #b30000;
+            color: white;
+            border: none;
+            padding: 8px 0;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-align: center;
+            transition: background-color 0.2s, transform 0.1s, box-shadow 0.2s;
+        }
+
+        .buy-btn:hover {
+            background-color: #e60000;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+        }
+
+        .buy-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Footer */
+        footer {
+            height: 55px;
+            background: linear-gradient(180deg, rgba(128, 0, 0, 0.8) 0%, rgba(64, 0, 0, 0.9) 100%);
+            backdrop-filter: blur(5px);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+            letter-spacing: 0.5px;
+            margin-top: auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .game-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+        @media (max-width: 600px) {
+            .game-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+  </style>
+  <link href="store.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <!-- Background Cosmic Container -->
+  <div class="cosmic-container" id="cosmicBg">
+   <div class="main-star">
+   </div>
+  </div>
+  <!-- Header Navigation -->
+  <header>
+   <div class="logo">
+    <img alt="ANF Logo" src="images/LOGO-removebg-preview.png"/>
+   </div>
+   <div class="nav-title">
+    แอ็คชั่น
+   </div>
+   <button class="login-btn" onclick="goToLogin()">
+    เข้าสู่ระบบ
+   </button>
+  </header>
+  <!-- Content Row 1 (เกมที่ 1-6) -->
+  <div class="container">
+   <div class="game-grid">
+    <!-- Card 1 -->
+    <div class="card store-game-card" data-category-name="แอคชั่น" data-category-url="action.html" data-game-image="แอ็คชั่น/1.png" data-game-price="299.90฿" data-game-title="Grand Theft Auto V">
+     <img alt="Grand Theft Auto V" class="card-img" src="แอ็คชั่น/1.png"/>
+     <div class="card-body">
+      <div class="game-title">
+       Grand Theft Auto V
+      </div>
+      <div class="game-price">
+       299.90฿
+      </div>
+      <button class="buy-btn">
+       ซื้อ
+      </button>
+     </div>
+    </div>
+    <!-- Card 2 -->
+    <div class="card store-game-card" data-category-name="แอคชั่น" data-category-url="action.html" data-game-image="แอ็คชั่น/2.png" data-game-price="458.50฿" data-game-title="Elden Ring">
+     <img alt="Elden Ring" class="card-img" src="แอ็คชั่น/2.png"/>
+     <div class="card-body">
+      <div class="game-title">
+       Elden Ring
+      </div>
+      <div class="game-price">
+       458.50฿
+      </div>
+      <button class="buy-btn">
+       ซื้อ
+      </button>
+     </div>
+    </div>
+    <!-- Card 3 -->
+    <div class="card store-game-card" data-category-name="แอคชั่น" data-category-url="action.html" data-game-image="แอ็คชั่น/3.png" data-game-price="325.50฿" data-game-title="Cyberpunk 2077">
+     <img alt="Cyberpunk 2077" class="card-img" src="แอ็คชั่น/3.png"/>
+     <div class="card-body">
+      <div class="game-title">
+       Cyberpunk 2077
+      </div>
+      <div class="game-price">
+       325.50฿
+      </div>
+      <button class="buy-btn">
+       ซื้อ
+      </button>
+     </div>
+    </div>
+    <!-- Card 4 -->
+    <div class="card store-game-card" data-category-name="แอคชั่น" data-category-url="action.html" data-game-image="แอ็คชั่น/4.png" data-game-price="125.50฿" data-game-title="Red Dead Redemption II">
+     <img alt="Red Dead Redemption II" class="card-img" src="แอ็คชั่น/4.png"/>
+     <div class="card-body">
+      <div class="game-title">
+       Red Dead Redemption II
+      </div>
+      <div class="game-price">
+       125.50฿
+      </div>
+      <button class="buy-btn">
+       ซื้อ
+      </button>
+     </div>
+    </div>
+    <!-- Card 5 -->
+    <div class="card store-game-card" data-category-name="แอคชั่น" data-category-url="action.html" data-game-image="แอ็คชั่น/5.png" data-game-price="99.50฿" data-game-title="God of War Ragnarök">
+     <img alt="God of War Ragnarök" class="card-img" src="แอ็คชั่น/5.png"/>
+     <div class="card-body">
+      <div class="game-title">
+       God of War Ragnarök
+      </div>
+      <div class="game-price">
+       99.50฿
+      </div>
+      <button class="buy-btn">
+       ซื้อ
+      </button>
+     </div>
+    </div>
+    <!-- Card 6 -->
+    <div class="card store-game-card" data-category-name="แอคชั่น" data-category-url="action.html" data-game-image="แอ็คชั่น/6.png" data-game-price="699.00฿" data-game-title="Monster Hunter: World">
+     <img alt="Monster Hunter: World" class="card-img" src="แอ็คชั่น/6.png"/>
+     <div class="card-body">
+      <div class="game-title">
+       Monster Hunter: World
+      </div>
+      <div class="game-price">
+       699.00฿
+      </div>
+      <button class="buy-btn">
+       ซื้อ
+      </button>
+     </div>
+    </div>
+   </div>
+  </div>
+  <!-- Content Row 2 (เกมที่ 7-12) -->
+  <div class="container">
+   <div class="game-grid">
+    <!-- Card 7 -->
+    <div class="card store-game-card" data-category-name="แอคชั่น" data-category-url="action.html" data-game-image="แอ็คชั่น/7.png" data-game-price="899.00฿" data-game-title="Devil May Cry 5">
+     <img alt="Devil May Cry 5" class="card-img" src="แอ็คชั่น/7.png"/>
+     <div class="card-body">
+      <div class="game-title">
+       Devil May Cry 5
+      </div>
+      <div class="game-price">
+       899.00฿
+      </div>
+      <button class="buy-btn">
+       ซื้อ
+      </button>
+     </div>
+    </div>
+    <!-- Card 8 -->
+    <div class="card store-game-card" data-category-name="แอคชั่น" data-category-url="action.html" data-game-image="แอ็คชั่น/8.png" data-game-price="1,290.00฿" data-game-title="Sekiro: Shadows Die Twice">
+     <img alt="Sekiro: Shadows Die Twice" class="card-img" src="แอ็คชั่น/8.png"/>
+     <div class="card-body">
+      <div class="game-title">
+       Sekiro: Shadows Die Twice
+      </div>
+      <div class="game-price">
+       1,290.00฿
+      </div>
+      <button class="buy-btn">
+       ซื้อ
+      </button>
+     </div>
+    </div>
+    <!-- Card 9 -->
+    <div class="card store-game-card" data-category-name="แอคชั่น" data-category-url="action.html" data-game-image="แอ็คชั่น/9.png" data-game-price="1,490.00฿" data-game-title="Resident Evil 4">
+     <img alt="Resident Evil 4" class="card-img" src="แอ็คชั่น/9.png"/>
+     <div class="card-body">
+      <div class="game-title">
+       Resident Evil 4
+      </div>
+      <div class="game-price">
+       1,490.00฿
+      </div>
+      <button class="buy-btn">
+       ซื้อ
+      </button>
+     </div>
+    </div>
+    <!-- Card 10 -->
+    <div class="card store-game-card" data-category-name="แอคชั่น" data-category-url="action.html" data-game-image="แอ็คชั่น/10.png" data-game-price="1,590.00฿" data-game-title="Apex Legends">
+     <img alt="Apex Legends" class="card-img" src="แอ็คชั่น/10.png"/>
+     <div class="card-body">
+      <div class="game-title">
+       Apex Legends
+      </div>
+      <div class="game-price">
+       1,590.00฿
+      </div>
+      <button class="buy-btn">
+       ซื้อ
+      </button>
+     </div>
+    </div>
+    <!-- Card 11 -->
+    <div class="card store-game-card" data-category-name="แอคชั่น" data-category-url="action.html" data-game-image="แอ็คชั่น/11.png" data-game-price="ฟรี" data-game-title="VALORANT">
+     <img alt="VALORANT" class="card-img" src="แอ็คชั่น/11.png"/>
+     <div class="card-body">
+      <div class="game-title">
+       VALORANT
+      </div>
+      <div class="game-price">
+       ฟรี
+      </div>
+      <button class="buy-btn">
+       ซื้อ
+      </button>
+     </div>
+    </div>
+    <!-- Card 12 -->
+    <div class="card store-game-card" data-category-name="แอคชั่น" data-category-url="action.html" data-game-image="แอ็คชั่น/12.png" data-game-price="1,290.00฿" data-game-title="Call of Duty: Warzone">
+     <img alt="Call of Duty: Warzone" class="card-img" src="แอ็คชั่น/12.png"/>
+     <div class="card-body">
+      <div class="game-title">
+       Call of Duty: Warzone
+      </div>
+      <div class="game-price">
+       1,290.00฿
+      </div>
+      <button class="buy-btn">
+       ซื้อ
+      </button>
+     </div>
+    </div>
+   </div>
+  </div>
+  <!-- Content Row 3 (เกมที่ 13-18) -->
+  <div class="container">
+   <div class="game-grid">
+    <!-- Card 13 -->
+    <div class="card store-game-card" data-category-name="แอคชั่น" data-category-url="action.html" data-game-image="แอ็คชั่น/13.png" data-game-price="1,490.00฿" data-game-title="Doom Eternal">
+     <img alt="Doom Eternal" class="card-img" src="แอ็คชั่น/13.png"/>
+     <div class="card-body">
+      <div class="game-title">
+       Doom Eternal
+      </div>
+      <div class="game-price">
+       1,490.00฿
+      </div>
+      <button class="buy-btn">
+       ซื้อ
+      </button>
+     </div>
+    </div>
+    <!-- Card 14 -->
+    <div class="card store-game-card" data-category-name="แอคชั่น" data-category-url="action.html" data-game-image="แอ็คชั่น/14.png" data-game-price="599.00฿" data-game-title="Batman: Arkham Knight">
+     <img alt="Batman: Arkham Knight" class="card-img" src="แอ็คชั่น/14.png"/>
+     <div class="card-body">
+      <div class="game-title">
+       Batman: Arkham Knight
+      </div>
+      <div class="game-price">
+       599.00฿
+      </div>
+      <button class="buy-btn">
+       ซื้อ
+      </button>
+     </div>
+    </div>
+    <!-- Card 15 -->
+    <div class="card store-game-card" data-category-name="แอคชั่น" data-category-url="action.html" data-game-image="แอ็คชั่น/15.png" data-game-price="399.00฿" data-game-title="The Witcher 3: Wild Hunt">
+     <img alt="The Witcher 3: Wild Hunt" class="card-img" src="แอ็คชั่น/15.png"/>
+     <div class="card-body">
+      <div class="game-title">
+       The Witcher 3: Wild Hunt
+      </div>
+      <div class="game-price">
+       399.00฿
+      </div>
+      <button class="buy-btn">
+       ซื้อ
+      </button>
+     </div>
+    </div>
+    <!-- Card 16 -->
+    <div class="card store-game-card" data-category-name="แอคชั่น" data-category-url="action.html" data-game-image="แอ็คชั่น/16.png" data-game-price="890.00฿" data-game-title="Persona 5 Royal">
+     <img alt="Persona 5 Royal" class="card-img" src="แอ็คชั่น/16.png"/>
+     <div class="card-body">
+      <div class="game-title">
+       Persona 5 Royal
+      </div>
+      <div class="game-price">
+       890.00฿
+      </div>
+      <button class="buy-btn">
+       ซื้อ
+      </button>
+     </div>
+    </div>
+    <!-- Card 17 -->
+    <div class="card store-game-card" data-category-name="แอคชั่น" data-category-url="action.html" data-game-image="แอ็คชั่น/17.png" data-game-price="1,190.00฿" data-game-title="Marvel's Spider-Man Remastered">
+     <img alt="Marvel's Spider-Man Remastered" class="card-img" src="แอ็คชั่น/17.png"/>
+     <div class="card-body">
+      <div class="game-title">
+       Marvel's Spider-Man Remastered
+      </div>
+      <div class="game-price">
+       1,190.00฿
+      </div>
+      <button class="buy-btn">
+       ซื้อ
+      </button>
+     </div>
+    </div>
+    <!-- Card 18 -->
+    <div class="card store-game-card" data-category-name="แอคชั่น" data-category-url="action.html" data-game-image="แอ็คชั่น/18.png" data-game-price="1,390.00฿" data-game-title="Far Cry 6">
+     <img alt="Far Cry 6" class="card-img" src="แอ็คชั่น/18.png"/>
+     <div class="card-body">
+      <div class="game-title">
+       Far Cry 6
+      </div>
+      <div class="game-price">
+       1,390.00฿
+      </div>
+      <button class="buy-btn">
+       ซื้อ
+      </button>
+     </div>
+    </div>
+   </div>
+  </div>
+  <!-- Content Row 4 (เกมที่ 19-24) -->
+  <div class="container">
+   <div class="game-grid">
+    <!-- Card 19 -->
+    <div class="card store-game-card" data-category-name="แอคชั่น" data-category-url="action.html" data-game-image="แอ็คชั่น/19.png" data-game-price="499.00฿" data-game-title="Helldivers II">
+     <img alt="Helldivers II" class="card-img" src="แอ็คชั่น/19.png"/>
+     <div class="card-body">
+      <div class="game-title">
+       Helldivers II
+      </div>
+      <div class="game-price">
+       499.00฿
+      </div>
+      <button class="buy-btn">
+       ซื้อ
+      </button>
+     </div>
+    </div>
+    <!-- Card 20 -->
+    <div class="card store-game-card" data-category-name="แอคชั่น" data-category-url="action.html" data-game-image="แอ็คชั่น/20.png" data-game-price="590.00฿" data-game-title="Ghost of Tsushima Director's Cut">
+     <img alt="Ghost of Tsushima Director's Cut" class="card-img" src="แอ็คชั่น/20.png"/>
+     <div class="card-body">
+      <div class="game-title">
+       Ghost of Tsushima Director's Cut
+      </div>
+      <div class="game-price">
+       590.00฿
+      </div>
+      <button class="buy-btn">
+       ซื้อ
+      </button>
+     </div>
+    </div>
+    <!-- Card 21 -->
+    <div class="card store-game-card" data-category-name="แอคชั่น" data-category-url="action.html" data-game-image="แอ็คชั่น/21.png" data-game-price="990.00฿" data-game-title="Black Myth: Wukong">
+     <img alt="Black Myth: Wukong" class="card-img" src="แอ็คชั่น/21.png"/>
+     <div class="card-body">
+      <div class="game-title">
+       Black Myth: Wukong
+      </div>
+      <div class="game-price">
+       990.00฿
+      </div>
+      <button class="buy-btn">
+       ซื้อ
+      </button>
+     </div>
+    </div>
+    <!-- Card 22 -->
+    <div class="card store-game-card" data-category-name="แอคชั่น" data-category-url="action.html" data-game-image="แอ็คชั่น/22.png" data-game-price="1,090.00฿" data-game-title="Armored Core VI Fires of Rubicon">
+     <img alt="Armored Core VI Fires of Rubicon" class="card-img" src="แอ็คชั่น/22.png"/>
+     <div class="card-body">
+      <div class="game-title">
+       Armored Core VI Fires of Rubicon
+      </div>
+      <div class="game-price">
+       1,090.00฿
+      </div>
+      <button class="buy-btn">
+       ซื้อ
+      </button>
+     </div>
+    </div>
+    <!-- Card 23 -->
+    <div class="card store-game-card" data-category-name="แอคชั่น" data-category-url="action.html" data-game-image="แอ็คชั่น/23.png" data-game-price="790.00฿" data-game-title="Nioh 2">
+     <img alt="Nioh 2" class="card-img" src="แอ็คชั่น/23.png"/>
+     <div class="card-body">
+      <div class="game-title">
+       Nioh 2
+      </div>
+      <div class="game-price">
+       790.00฿
+      </div>
+      <button class="buy-btn">
+       ซื้อ
+      </button>
+     </div>
+    </div>
+    <!-- Card 24 -->
+    <div class="card store-game-card" data-category-name="แอคชั่น" data-category-url="action.html" data-game-image="แอ็คชั่น/24.png" data-game-price="490.00฿" data-game-title="Dark Souls III">
+     <img alt="Dark Souls III" class="card-img" src="แอ็คชั่น/24.png"/>
+     <div class="card-body">
+      <div class="game-title">
+       Dark Souls III
+      </div>
+      <div class="game-price">
+       490.00฿
+      </div>
+      <button class="buy-btn">
+       ซื้อ
+      </button>
+     </div>
+    </div>
+   </div>
+  </div>
+  <!-- Footer -->
+  <footer>
+   ©2026 By ANF
+  </footer>
+  <!-- JavaScript -->
+  <script>
+   const container = document.getElementById('cosmicBg');
+
+        // สร้างดาวระยิบระยับแบบสุ่ม (Twinkling Stars)
+        function createStars() {
+            for (let i = 0; i < 40; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                
+                const size = Math.random() * 15 + 8;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                
+                star.style.top = Math.random() * 100 + 'vh';
+                star.style.left = Math.random() * 100 + 'vw';
+                
+                star.style.animationDuration = (Math.random() * 2 + 1.5) + 's';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                
+                container.appendChild(star);
+            }
+        }
+
+        // สร้างดาวตกพุ่งผ่านหน้าจอ (Shooting Stars)
+        function createShootingStar() {
+            const shootingStar = document.createElement('div');
+            shootingStar.classList.add('shooting-star');
+            
+            shootingStar.style.top = Math.random() * 50 + 'vh';
+            shootingStar.style.right = Math.random() * 30 + 'vw';
+            
+            const duration = Math.random() * 2 + 2;
+            shootingStar.style.animationDuration = duration + 's';
+            
+            container.appendChild(shootingStar);
+
+            setTimeout(() => {
+                shootingStar.remove();
+            }, duration * 1000);
+        }
+
+        // เริ่มการทำงานของแอนิเมชันพื้นหลัง
+        createStars();
+        setInterval(createShootingStar, 1500);
+
+        // ฟังก์ชันนำทางไปหน้าล็อกอิน
+        function goToLogin() {
+            window.location.href = 'index.html';
+        }
+  </script>
+  <script src="store.js">
+  </script>
+ </body>
+</html>

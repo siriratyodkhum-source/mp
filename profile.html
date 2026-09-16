@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ข้อมูลผู้ใช้ - ANF Game Store</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="store.css">
+</head>
+<body class="store-page">
+  <header class="navbar">
+    <div class="logo"><img src="images/LOGO-removebg-preview.png" alt="ANF Game Store" style="height:45px;width:auto"></div>
+    <span class="nav-title">ข้อมูลผู้ใช้</span>
+    <a class="store-btn secondary" href="Home.html"><i class="fa-solid fa-house"></i> หน้าหลัก</a>
+  </header>
+  <main class="store-shell">
+    <div class="store-heading">
+      <div class="eyebrow">PLAYER PROFILE</div>
+      <h1>บัญชีของฉัน</h1>
+      <p>จัดการข้อมูลผู้ใช้ รูปโปรไฟล์ และดูเกมที่ซื้อแล้วได้จากหน้านี้</p>
+    </div>
+    <section class="store-panel" data-profile-guest hidden>
+      <div class="empty-state"><i class="fa-solid fa-user-lock" style="font-size:2rem;color:#ff7777"></i><h2>กรุณาเข้าสู่ระบบก่อน</h2><p>เข้าสู่ระบบเพื่อดูข้อมูลส่วนตัวและคลังเกมของคุณ</p><a class="store-btn" href="index.html">เข้าสู่ระบบ</a></div>
+    </section>
+    <div data-profile-content>
+      <section class="profile-hero">
+        <img class="profile-avatar" data-profile-avatar src="images/LOGO-removebg-preview.png" alt="รูปโปรไฟล์">
+        <div style="flex:1"><h1 data-user-name>ผู้ใช้</h1><p><i class="fa-regular fa-envelope"></i> <span data-user-email>-</span></p><p><i class="fa-solid fa-id-card"></i> รหัสไอดี: <strong data-user-id>-</strong></p></div>
+        <div><label class="upload-label" for="avatarUpload"><i class="fa-solid fa-image"></i> เปลี่ยนรูปโปรไฟล์<input id="avatarUpload" type="file" accept="image/png,image/jpeg,image/webp"></label><button class="store-btn secondary" data-logout type="button" style="margin-top:10px;width:100%"><i class="fa-solid fa-right-from-bracket"></i> ออกจากระบบ</button></div>
+      </section>
+      <div class="profile-stats"><div class="stat-card"><strong data-library-count>0</strong><span>เกมในคลัง</span></div><div class="stat-card"><strong>ANF</strong><span>สมาชิกเกมสโตร์</span></div></div>
+      <section class="store-panel"><h2><i class="fa-solid fa-dice-d20"></i> คลังเกมที่ซื้อแล้ว</h2><div class="library-grid" data-library-list></div></section>
+    </div>
+  </main>
+  <script src="store.js"></script>
+</body>
+</html>

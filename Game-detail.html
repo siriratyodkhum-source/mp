@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>รายละเอียดเกม - ANF Game Store</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="store.css">
+</head>
+<body class="store-page">
+  <header class="navbar">
+    <div class="logo"><img src="images/LOGO-removebg-preview.png" alt="ANF Game Store" style="height:45px;width:auto"></div>
+    <span class="nav-title">รายละเอียดเกม</span>
+    <a class="store-btn secondary" href="cart.html"><i class="fa-solid fa-cart-shopping"></i> ตะกร้า <span data-cart-count>0</span></a>
+  </header>
+  <main class="store-shell">
+    <div class="store-heading">
+      <a class="utility-link" data-back-category href="Home.html">← กลับไปหมวดเกม</a>
+    </div>
+    <section class="detail-grid">
+      <div class="detail-cover"><img data-detail-image src="images/action.jpg" alt="ภาพเกม"></div>
+      <article class="detail-card">
+        <div class="eyebrow" data-detail-category>เกมแนะนำ</div>
+        <h1 data-detail-title>กำลังโหลดข้อมูลเกม</h1>
+        <div class="detail-meta"><span><i class="fa-solid fa-gamepad"></i> PC Digital</span><span><i class="fa-solid fa-bolt"></i> ดาวน์โหลดทันทีหลังชำระเงิน</span></div>
+        <p class="detail-description">สัมผัสประสบการณ์เกมเต็มรูปแบบ พร้อมรายละเอียดเกมและข้อมูลการจัดจำหน่ายจาก ANF Game Store เมื่อซื้อสำเร็จ เกมจะถูกเพิ่มเข้า <strong>คลังเกมของคุณ</strong> อัตโนมัติ</p>
+        <div class="detail-price" data-detail-price>0.00฿</div>
+        <div class="detail-actions">
+          <button class="store-btn" type="button" data-add-to-cart><i class="fa-solid fa-cart-plus"></i> เพิ่มลงตะกร้า</button>
+          <button class="store-btn secondary" type="button" data-buy-now><i class="fa-solid fa-credit-card"></i> ซื้อทันที</button>
+        </div>
+      </article>
+    </section>
+  </main>
+  <script src="store.js"></script>
+</body>
+</html>

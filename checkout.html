@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ยืนยันการซื้อ - ANF Game Store</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="store.css">
+</head>
+<body class="store-page">
+  <header class="navbar">
+    <div class="logo"><img src="images/LOGO-removebg-preview.png" alt="ANF Game Store" style="height:45px;width:auto"></div>
+    <span class="nav-title">ยืนยันการซื้อ</span>
+    <a class="store-btn secondary" data-back-cart href="cart.html"><i class="fa-solid fa-arrow-left"></i> กลับตะกร้า</a>
+  </header>
+  <main class="store-shell">
+    <div class="store-heading">
+      <div class="eyebrow">SECURE CHECKOUT</div>
+      <h1>ยืนยันการซื้อ</h1>
+      <p>ตรวจสอบรายการ เลือกช่องทางชำระเงิน และเพิ่มเกมที่ซื้อแล้วลงในคลังของคุณ</p>
+    </div>
+    <div class="empty-state store-panel" data-checkout-empty hidden>
+      <i class="fa-solid fa-circle-check" style="font-size:2rem;color:#ff7777"></i>
+      <h2>ยังไม่มีรายการสำหรับชำระเงิน</h2>
+      <p>กรุณากลับไปเลือกเกมและเพิ่มลงตะกร้าก่อน</p>
+      <a class="store-btn" href="Home.html">กลับไปเลือกเกม</a>
+    </div>
+    <div class="checkout-layout" data-checkout-layout>
+      <section class="store-panel">
+        <h2>รายการสั่งซื้อ</h2>
+        <div data-checkout-review></div>
+        <div class="cart-summary"><span class="summary-total">ยอดรวมทั้งหมด</span><strong class="summary-total" data-checkout-total>0.00฿</strong></div>
+      </section>
+      <section class="store-panel">
+        <h2>เลือกวิธีชำระเงิน</h2>
+        <form data-checkout-form>
+          <input type="hidden" name="paymentMethod" value="bank">
+          <div class="method-switcher">
+            <button class="method-button" type="button" data-payment-method="bank"><i class="fa-solid fa-building-columns"></i><br>โอนผ่านธนาคาร</button>
+            <button class="method-button" type="button" data-payment-method="card"><i class="fa-solid fa-credit-card"></i><br>บัตรเครดิต</button>
+          </div>
+          <div data-payment-panel="bank">
+            <div class="notice">ระบบจำลอง: โอนเงินไปยังบัญชีด้านล่าง แล้วกรอกข้อมูลประกอบรายการ</div>
+            <div class="store-panel" style="padding:15px;margin-bottom:15px"><strong>ANF Bank</strong><br>เลขที่บัญชี 123-4-56789-0<br>ชื่อบัญชี ANF Game Store</div>
+            <div class="form-field"><label for="bankName">ธนาคารที่ใช้โอน</label><select id="bankName"><option value="">เลือกธนาคาร</option><option>ANF Bank</option><option>ธนาคารกสิกรไทย</option><option>ธนาคารกรุงเทพ</option><option>ธนาคารไทยพาณิชย์</option></select></div>
+            <div class="form-field"><label for="transferRef">เลขอ้างอิงการโอน (ถ้ามี)</label><input id="transferRef" placeholder="เช่น TRX-123456"></div>
+          </div>
+          <div data-payment-panel="card" hidden>
+            <div class="notice">ระบบจำลองเท่านั้น ข้อมูลบัตรจะไม่ถูกส่งไปยังธนาคารและไม่มีการตัดเงินจริง</div>
+            <div class="form-field"><label for="cardNumber">หมายเลขบัตร</label><input id="cardNumber" inputmode="numeric" placeholder="0000 0000 0000 0000" maxlength="19"></div>
+            <div class="form-grid"><div class="form-field"><label for="expiry">วันหมดอายุ</label><input id="expiry" placeholder="MM/YY" maxlength="5"></div><div class="form-field"><label for="cvv">CVV</label><input id="cvv" inputmode="numeric" placeholder="123" maxlength="4"></div></div>
+          </div>
+          <button class="store-btn" type="submit" style="width:100%;margin-top:10px"><i class="fa-solid fa-lock"></i> ยืนยันการซื้อ</button>
+        </form>
+        <div class="success-box" data-checkout-success hidden>
+          <h2><i class="fa-solid fa-circle-check"></i> สั่งซื้อสำเร็จ</h2>
+          <p>รายการของคุณถูกบันทึกแล้ว เกมถูกเพิ่มเข้าไปในคลังเกมของคุณ</p>
+          <div class="order-id" data-order-id></div>
+          <div class="checkout-nav" data-checkout-nav hidden><a class="store-btn" href="profile.html">ดูคลังเกม</a><a class="store-btn secondary" href="Home.html">กลับหน้าหลัก</a></div>
+        </div>
+      </section>
+    </div>
+  </main>
+  <script src="store.js"></script>
+</body>
+</html>

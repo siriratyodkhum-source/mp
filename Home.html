@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="th">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   ร้านค้า - ANF
+  </title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <style>
+   * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #050002;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* 🔴 พื้นหลังเนบิวลาเรืองแสงโทนดำ-แดง (Cosmic Stars Background) */
+        .cosmic-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 80% 20%, rgba(180, 0, 30, 0.35) 0%, rgba(60, 0, 10, 0.2) 40%, rgba(5, 0, 2, 1) 80%);
+            z-index: -1; /* แก้ไข: ให้ไปอยู่หลังสุดเพื่อไม่ให้บังการคลิก */
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        /* 🌟 ดาวดวงใหญ่หลัก (Big Main Star) */
+        .main-star {
+            position: absolute;
+            top: 15%;
+            right: 15%;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, #ffffff 10%, #ff3344 40%, transparent 70%);
+            clip-path: polygon(50% 0%, 63% 37%, 100% 50%, 63% 63%, 50% 100%, 37% 63%, 0% 50%, 37% 37%);
+            filter: drop-shadow(0 0 25px #ff0033) drop-shadow(0 0 50px #990011);
+            animation: pulseMainStar 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulseMainStar {
+            0% {
+                transform: scale(0.9) rotate(0deg);
+                filter: drop-shadow(0 0 20px #ff0033) drop-shadow(0 0 40px #800000);
+            }
+            100% {
+                transform: scale(1.1) rotate(5deg);
+                filter: drop-shadow(0 0 40px #ff3355) drop-shadow(0 0 80px #cc0022);
+            }
+        }
+
+        /* ✨ ดาวส่องแสงระยิบระยับ (Twinkling Stars) */
+        .star {
+            position: absolute;
+            background: #ff6677;
+            clip-path: polygon(50% 0%, 65% 35%, 100% 50%, 65% 65%, 50% 100%, 35% 65%, 0% 50%, 35% 35%);
+            filter: drop-shadow(0 0 8px #ff0033);
+            animation: twinkle linear infinite alternate;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.2; transform: scale(0.7); }
+            100% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* ☄️ ดาวตก (Shooting Stars / Comets) */
+        .shooting-star {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(-45deg, #ff6677, rgba(255, 0, 50, 0));
+            filter: drop-shadow(0 0 6px #ff0033);
+            animation: tail 3s ease-in-out infinite, shooting 3s ease-in-out infinite;
+            opacity: 0;
+        }
+
+        @keyframes tail {
+            0% { width: 0; }
+            30% { width: 120px; }
+            100% { width: 0; }
+        }
+
+        @keyframes shooting {
+            0% {
+                transform: translateX(0) translateY(0) rotate(-35deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(-800px) translateY(500px) rotate(-35deg);
+                opacity: 0;
+            }
+        }
+
+        /* จัดลำดับ Z-Index เลเยอร์ของเนื้อหา */
+        .navbar, .banner-slider, .category-bar, .main-content, .footer {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Top Navbar */
+        .navbar {
+            height: 60px;
+            background: linear-gradient(180deg, #400000 0%, #800000 100%);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 30px;
+            color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .nav-logo {
+            height: 38px;
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 0 5px rgba(255, 50, 50, 0.8));
+        }
+
+        .nav-title {
+            font-size: 1.2rem;
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .btn-top-login {
+            background-color: transparent;
+            border: 1px solid #ffffff;
+            color: #ffffff;
+            padding: 6px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: bold;
+            transition: all 0.2s ease;
+        }
+
+        .btn-top-login:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: scale(1.03);
+        }
+
+        /* 🖼️ Banner Slider */
+        .banner-slider {
+            position: relative;
+            width: 92%;
+            max-width: 1200px;
+            height: auto;
+            aspect-ratio: 16 / 9;
+            margin: 25px auto 15px auto;
+            overflow: hidden;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 50, 50, 0.4);
+            box-shadow: 0 8px 30px rgba(255, 0, 0, 0.35);
+        }
+
+        .slider-wrapper {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s ease-in-out;
+        }
+
+        .slide {
+            min-width: 100%;
+            height: 100%;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 1.2rem;
+            padding: 12px 16px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .slider-btn:hover {
+            background: rgba(230, 0, 0, 0.8);
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.6);
+        }
+
+        .btn-prev { left: 15px; }
+        .btn-next { right: 15px; }
+
+        .dots-container {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            background: #ff3333;
+            box-shadow: 0 0 8px #ff3333;
+            width: 28px;
+            border-radius: 10px;
+        }
+
+        /* Category Bar */
+        .category-bar {
+            background: rgba(40, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            padding: 12px 0;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            border-top: 1px solid rgba(255, 50, 50, 0.2);
+            border-bottom: 1px solid rgba(255, 50, 50, 0.2);
+            z-index: 10;
+        }
+
+        .cat-btn {
+            display: inline-block; /* แก้ไข: กำหนดคุณสมบัติกล่องให้คลิกง่ายขึ้น */
+            background-color: #800000;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 8px 28px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            text-decoration: none; /* แก้ไข: ลบเส้นใต้ลิงก์ */
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        .cat-btn:hover {
+            background-color: #cc0000;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+            transform: translateY(-2px);
+            color: #ffffff;
+        }
+
+        .cat-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+            flex: 1;
+            width: 100%;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 25px;
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+        }
+
+        /* Game Grid */
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .game-card {
+            background: rgba(20, 5, 8, 0.85);
+            backdrop-filter: blur(8px);
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(255, 50, 50, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 0, 0, 0.3);
+            border-color: #ff3333;
+        }
+
+        .game-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background-color: #1a1a1a;
+        }
+
+        .game-info {
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            justify-content: space-between;
+        }
+
+        .game-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 10px;
+            line-height: 1.3;
+            height: 40px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .game-price {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #ff4d4d;
+            margin-bottom: 12px;
+        }
+
+        .original-price {
+            font-size: 0.85rem;
+            color: #888888;
+            text-decoration: line-through;
+            margin-right: 6px;
+        }
+
+        .btn-buy {
+            width: 100%;
+            background-color: #b30000;
+            color: white;
+            border: none;
+            padding: 9px 0;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+
+        .btn-buy:hover {
+            background-color: #e60000;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+        }
+
+        /* Footer */
+        .footer {
+            height: 55px;
+            background: linear-gradient(180deg, #800000 0%, #400000 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-top: auto;
+        }
+
+        @media (max-width: 1024px) {
+            .game-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+        @media (max-width: 600px) {
+            .game-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+  </style>
+  <link href="store.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <!-- 🌌 พื้นหลังเนบิวลาเรืองแสงและอวกาศ -->
+  <div class="cosmic-container" id="cosmicBg">
+   <div class="main-star">
+   </div>
+  </div>
+  <!-- Header / Navbar -->
+  <header class="navbar">
+   <div class="nav-left">
+    <img alt="ANF Logo" class="nav-logo" src="images/LOGO-removebg-preview.png"/>
+   </div>
+   <span class="nav-title">
+    ร้านค้า
+   </span>
+   <div id="userArea">
+    <button class="btn-top-login" onclick="window.location.href='index.html'">
+     เข้าสู่ระบบ
+    </button>
+   </div>
+  </header>
+  <!-- Banner Slider -->
+  <div class="banner-slider">
+   <button class="slider-btn btn-prev" id="prevBtn">
+    <i class="fas fa-chevron-left">
+    </i>
+   </button>
+   <button class="slider-btn btn-next" id="nextBtn">
+    <i class="fas fa-chevron-right">
+    </i>
+   </button>
+   <div class="slider-wrapper" id="sliderWrapper">
+    <div class="slide">
+     <img alt="Banner 1" src="images/action.jpg"/>
+    </div>
+    <div class="slide">
+     <img alt="Banner 2" src="images/Enshrouded_01_KeyArt_16x9_use_for_thumbnails_smaller_presentations.png"/>
+    </div>
+    <div class="slide">
+     <img alt="Banner 3" src="images/survival.jpg"/>
+    </div>
+    <div class="slide">
+     <img alt="Banner 4" src="images/car.jpg"/>
+    </div>
+    <div class="slide">
+     <img alt="Banner 5" src="images/lol.jpg"/>
+    </div>
+   </div>
+   <div class="dots-container" id="dotsContainer">
+   </div>
+  </div>
+  <!-- Category Bar -->
+  <nav class="category-bar">
+   <a class="cat-btn" href="Horror-1.html">
+    สยองขวัญ
+   </a>
+   <a class="cat-btn" href="survive-1.html">
+    เอาชีวิตรอด
+   </a>
+   <a class="cat-btn" href="race car.html">
+    รถแข่ง
+   </a>
+   <a class="cat-btn" href="plan.html">
+    วางแผน
+   </a>
+   <a class="cat-btn" href="action.html">
+    แอคชั่น
+   </a>
+  </nav>
+  <!-- Main Content: เกมแนะนำ -->
+  <main class="main-content">
+   <h2 class="section-title">
+    เกมแนะนำ
+   </h2>
+   <div class="game-grid">
+    <div class="game-card store-game-card" data-category-name="ร้านค้า" data-category-url="Home.html" data-game-image="images/cities-skylines-ii-cover.jpg" data-game-price="299.90฿" data-game-title="Cities: Skylines II">
+     <img alt="Cities: Skylines II" class="game-img" src="images/cities-skylines-ii-cover.jpg"/>
+     <div class="game-info">
+      <div class="game-title">
+       Cities: Skylines II
+      </div>
+      <div class="game-price">
+       299.90฿
+      </div>
+      <button class="btn-buy" onclick="buyGame('Cities: Skylines II')">
+       ซื้อ
+      </button>
+     </div>
+    </div>
+    <div class="game-card store-game-card" data-category-name="ร้านค้า" data-category-url="Home.html" data-game-image="images/apps.57921.13913179094391197.48e0c780-4669-4067-951d-a9b01b9fc923.jpg" data-game-price="458.50฿" data-game-title="Shift At Midnight">
+     <img alt="Shift At Midnight" class="game-img" src="images/apps.57921.13913179094391197.48e0c780-4669-4067-951d-a9b01b9fc923.jpg"/>
+     <div class="game-info">
+      <div class="game-title">
+       Shift At Midnight
+      </div>
+      <div class="game-price">
+       458.50฿
+      </div>
+      <button class="btn-buy" onclick="buyGame('Shift At Midnight')">
+       ซื้อ
+      </button>
+     </div>
+    </div>
+    <div class="game-card store-game-card" data-category-name="ร้านค้า" data-category-url="Home.html" data-game-image="images/Spider-Man_PS4_cover.jpg" data-game-price="325.50฿" data-game-title="Marvel's Spider-Man">
+     <img alt="Marvel's Spider-Man" class="game-img" src="images/Spider-Man_PS4_cover.jpg"/>
+     <div class="game-info">
+      <div class="game-title">
+       Marvel's Spider-Man
+      </div>
+      <div class="game-price">
+       325.50฿
+      </div>
+      <button class="btn-buy" onclick="buyGame('Marvel\'s Spider-Man')">
+       ซื้อ
+      </button>
+     </div>
+    </div>
+    <div class="game-card store-game-card" data-category-name="ร้านค้า" data-category-url="Home.html" data-game-image="images/images.jpg" data-game-price="125.50฿" data-game-title="The Crew Motorfest">
+     <img alt="The Crew Motorfest" class="game-img" src="images/images.jpg"/>
+     <div class="game-info">
+      <div class="game-title">
+       The Crew Motorfest
+      </div>
+      <div class="game-price">
+       125.50฿
+      </div>
+      <button class="btn-buy" onclick="buyGame('The Crew Motorfest')">
+       ซื้อ
+      </button>
+     </div>
+    </div>
+    <div class="game-card store-game-card" data-category-name="ร้านค้า" data-category-url="Home.html" data-game-image="images/images (1).jpg" data-game-price="99.50฿" data-game-title="Rust">
+     <img alt="Rust" class="game-img" src="images/images (1).jpg"/>
+     <div class="game-info">
+      <div class="game-title">
+       Rust
+      </div>
+      <div class="game-price">
+       99.50฿
+      </div>
+      <button class="btn-buy" onclick="buyGame('Rust')">
+       ซื้อ
+      </button>
+     </div>
+    </div>
+   </div>
+  </main>
+  <!-- Main Content: เกมลดราคา -->
+  <main class="main-content" style="padding-top: 0;">
+   <h2 class="section-title">
+    เกมลดราคา
+   </h2>
+   <div class="game-grid">
+    <div class="game-card store-game-card" data-category-name="ร้านค้า" data-category-url="Home.html" data-game-image="images/Palworld_Steam_artwork.png" data-game-price="590.00฿ 299.90฿" data-game-title="Palworld">
+     <img alt="Palworld" class="game-img" src="images/Palworld_Steam_artwork.png"/>
+     <div class="game-info">
+      <div class="game-title">
+       Palworld
+      </div>
+      <div class="game-price">
+       <span class="original-price">
+        590.00฿
+       </span>
+       299.90฿
+      </div>
+      <button class="btn-buy" onclick="buyGame('Palworld')">
+       ซื้อ
+      </button>
+     </div>
+    </div>
+    <div class="game-card store-game-card" data-category-name="ร้านค้า" data-category-url="Home.html" data-game-image="images/1.png.png" data-game-price="650.00฿ 458.50฿" data-game-title="The isle">
+     <img alt="The isle" class="game-img" src="images/1.png.png"/>
+     <div class="game-info">
+      <div class="game-title">
+       The isle
+      </div>
+      <div class="game-price">
+       <span class="original-price">
+        650.00฿
+       </span>
+       458.50฿
+      </div>
+      <button class="btn-buy" onclick="buyGame('The isle')">
+       ซื้อ
+      </button>
+     </div>
+    </div>
+    <div class="game-card store-game-card" data-category-name="ร้านค้า" data-category-url="Home.html" data-game-image="images/starsand-island-1717144536843.png" data-game-price="1,290.00฿ 325.50฿" data-game-title="Starsand Island">
+     <img alt="Starsand Island" class="game-img" src="images/starsand-island-1717144536843.png"/>
+     <div class="game-info">
+      <div class="game-title">
+       Starsand Island
+      </div>
+      <div class="game-price">
+       <span class="original-price">
+        1,290.00฿
+       </span>
+       325.50฿
+      </div>
+      <button class="btn-buy" onclick="buyGame('Starsand Island')">
+       ซื้อ
+      </button>
+     </div>
+    </div>
+    <div class="game-card store-game-card" data-category-name="ร้านค้า" data-category-url="Home.html" data-game-image="images/uHoFEcglftWeu6ZaNQSHytpm2nM.png" data-game-price="490.00฿ 125.50฿" data-game-title="Subnautica 2">
+     <img alt="Subnautica 2" class="game-img" src="images/uHoFEcglftWeu6ZaNQSHytpm2nM.png"/>
+     <div class="game-info">
+      <div class="game-title">
+       Subnautica 2
+      </div>
+      <div class="game-price">
+       <span class="original-price">
+        490.00฿
+       </span>
+       125.50฿
+      </div>
+      <button class="btn-buy" onclick="buyGame('Subnautica 2')">
+       ซื้อ
+      </button>
+     </div>
+    </div>
+    <div class="game-card store-game-card" data-category-name="ร้านค้า" data-category-url="Home.html" data-game-image="เอาชีวิตรอด/16.webp" data-game-price="399.00฿ 99.50฿" data-game-title="Silent Hill: Townfall">
+     <img alt="Silent Hill: Townfall" class="game-img" src="เอาชีวิตรอด/16.webp"/>
+     <div class="game-info">
+      <div class="game-title">
+       Silent Hill: Townfall
+      </div>
+      <div class="game-price">
+       <span class="original-price">
+        399.00฿
+       </span>
+       99.50฿
+      </div>
+      <button class="btn-buy" onclick="buyGame('Silent Hill: Townfall')">
+       ซื้อ
+      </button>
+     </div>
+    </div>
+   </div>
+  </main>
+  <!-- Footer -->
+  <footer class="footer">
+   ©2026 By ANF
+  </footer>
+  <!-- JavaScript สำหรับระบบ Auto Slider, ปุ่มสั่งซื้อ และ Cosmic Stars Background -->
+  <script>
+   // --- 🎠 ระบบ Auto Slider ---
+        const wrapper = document.getElementById('sliderWrapper');
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const dotsContainer = document.getElementById('dotsContainer');
+        
+        let currentIndex = 0;
+        const totalSlides = slides.length;
+        let slideInterval;
+
+        slides.forEach((_, index) => {
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+            if (index === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => goToSlide(index));
+            dotsContainer.appendChild(dot);
+        });
+
+        const dots = document.querySelectorAll('.dot');
+
+        function updateSlider() {
+            wrapper.style.transform = `translateX(-${currentIndex * 100}%)`;
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentIndex);
+            });
+        }
+
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % totalSlides;
+            updateSlider();
+        }
+
+        function prevSlide() {
+            currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+            updateSlider();
+        }
+
+        function goToSlide(index) {
+            currentIndex = index;
+            updateSlider();
+            resetTimer();
+        }
+
+        function startTimer() {
+            slideInterval = setInterval(nextSlide, 3000);
+        }
+
+        function resetTimer() {
+            clearInterval(slideInterval);
+            startTimer();
+        }
+
+        nextBtn.addEventListener('click', () => { nextSlide(); resetTimer(); });
+        prevBtn.addEventListener('click', () => { prevSlide(); resetTimer(); });
+
+        startTimer();
+
+        // --- 🛒 ระบบปุ่มซื้อสินค้าตัวอย่าง ---
+        function buyGame(gameName) {
+            alert('คุณได้ทำการสั่งซื้อ: ' + gameName);
+        }
+
+        // --- 🌌 ระบบสร้างดาวระยิบระยับและดาวตก (Cosmic Background Effect) ---
+        const cosmicContainer = document.getElementById('cosmicBg');
+
+        function createStars() {
+            for (let i = 0; i < 40; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                
+                const size = Math.random() * 15 + 8;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                
+                star.style.top = Math.random() * 100 + 'vh';
+                star.style.left = Math.random() * 100 + 'vw';
+                
+                star.style.animationDuration = (Math.random() * 2 + 1.5) + 's';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                
+                cosmicContainer.appendChild(star);
+            }
+        }
+
+        function createShootingStar() {
+            const shootingStar = document.createElement('div');
+            shootingStar.classList.add('shooting-star');
+            
+            shootingStar.style.top = Math.random() * 50 + 'vh';
+            shootingStar.style.right = Math.random() * 30 + 'vw';
+            
+            const duration = Math.random() * 2 + 2;
+            shootingStar.style.animationDuration = duration + 's';
+            
+            cosmicContainer.appendChild(shootingStar);
+
+            setTimeout(() => {
+                shootingStar.remove();
+            }, duration * 1000);
+        }
+
+        createStars();
+        setInterval(createShootingStar, 1500);
+  </script>
+  <script src="store.js">
+  </script>
+ </body>
+</html>
